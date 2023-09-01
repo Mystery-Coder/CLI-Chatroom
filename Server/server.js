@@ -7,8 +7,6 @@ const io = require("socket.io")(PORT, {
 });
 
 io.on("connection", (socket) => {
-	console.log(`Listening on PORT ${PORT}`);
-
 	socket.on("message", (msg) => {
 		//msg will be in format 'name: --msg--'
 
@@ -16,6 +14,7 @@ io.on("connection", (socket) => {
 	});
 
 	socket.on("user-exit", (name) => {
+		socket.disconnect(true);
 		io.emit("new-message", `${name} has exited the chatroom`);
 	});
 

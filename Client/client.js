@@ -1,9 +1,7 @@
 #!/usr/bin/env node
-
-//Above line is a "shebang" to execute file in node
 import { io } from "socket.io-client";
 
-const socket = io("https://towering-glistening-radio.glitch.me/");
+const socket = io("http://localhost:3000/");
 
 import readline from "readline";
 const rl = readline.createInterface({
@@ -17,6 +15,7 @@ function displayMessages(messages) {
 		console.log(messages[i]);
 	}
 }
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 console.log("Enter message EXITOUT to exit chatroom");
 rl.question("What is your name ? ", function (name) {
@@ -27,6 +26,7 @@ rl.question("What is your name ? ", function (name) {
 	rl.question("Enter message: ", function (msg) {
 		if (msg === "EXITOUT") {
 			socket.emit("user-exit", name);
+			console.log("EXITING");
 			rl.close();
 		}
 		socket.emit("message", `${name}: ` + msg);
@@ -38,15 +38,9 @@ rl.question("What is your name ? ", function (name) {
 		rl.question("Enter message: ", function (msg) {
 			if (msg === "EXITOUT") {
 				socket.emit("user-exit", name);
-
-				rl.close();
+				console.log("EXITING");
 			}
 			socket.emit("message", `${name}: ` + msg);
 		});
 	});
-});
-
-rl.on("close", function () {
-	console.log("\nBYE BYE !!!");
-	process.exit(0);
 });
