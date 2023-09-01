@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+
+//Above line is a "shebang" to execute file in node
 import { io } from "socket.io-client";
 
 const socket = io("https://towering-glistening-radio.glitch.me/");
